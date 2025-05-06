@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morning Briefing Quiz - May 6, 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        header {
+            background-color: #1e40af;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+        }
+        .quiz-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #1e40af;
+            border-bottom: 2px solid #dbeafe;
+            padding-bottom: 10px;
+        }
+        .question {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+        .option {
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option:hover {
+            background-color: #f0f4f8;
+        }
+        .selected-correct {
+            background-color: #22c55e;
+            color: white;
+            border-color: #16a34a;
+        }
+        .selected-incorrect {
+            background-color: #ef4444;
+            color: white;
+            border-color: #dc2626;
+        }
+        .correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+        }
+        .feedback {
+            display: none;
+            background-color: #dbeafe;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .feedback-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .feedback-correct {
+            color: #16a34a;
+        }
+        .feedback-incorrect {
+            color: #dc2626;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #dbeafe;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .score {
+            font-weight: bold;
+            font-size: 18px;
+            color: #1e40af;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-reset {
+            background-color: #e5e7eb;
+            color: #1f2937;
+        }
+        .btn-score {
+            background-color: #1e40af;
+            color: white;
+        }
+        .btn-reset:hover {
+            background-color: #d1d5db;
+        }
+        .btn-score:hover {
+            background-color: #1e3a8a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Morning Briefing Quiz - May 6, 2025</h1>
+        <p>Test your knowledge of the key economic insights from today's briefing</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+    
+    <div class="controls">
+        <div id="score-display" class="score"></div>
+        <div>
+            <button id="reset-button" class="btn-reset">Reset Quiz</button>
+            <button id="score-button" class="btn-score">Calculate Score</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz Data
+        const quizData = {
+            sections: [
+                {
+                    title: "European Auto Industry",
+                    questions: [
+                        {
+                            id: 1,
+                            text: "What is the main challenge facing European automakers according to the briefing?",
+                            options: [
+                                { id: "A", text: "Labor union disputes" },
+                                { id: "B", text: "Global inflation" },
+                                { id: "C", text: "Competition from Chinese imports" },
+                                { id: "D", text: "Trump's trade war" }
+                            ],
+                            correctAnswer: "C",
+                            explanation: "The briefing emphasizes that while Trump's trade war, global inflation, and labor disputes are all factors, the primary challenge is the flood of inexpensive Chinese vehicles, especially EVs, into the European market."
+                        },
+                        {
+                            id: 2,
+                            text: "What was the price difference between European and Chinese cars at the end of 2024?",
+                            options: [
+                                { id: "A", text: "European: $49,000 vs Chinese: $18,000" },
+                                { id: "B", text: "European: $39,000 vs Chinese: $21,000" },
+                                { id: "C", text: "European: $42,000 vs Chinese: $15,000" },
+                                { id: "D", text: "European: $53,000 vs Chinese: $25,000" }
+                            ],
+                            correctAnswer: "A",
+                            explanation: "According to the briefing, 'As of the end of 2024, the average new car price in Europe was $49,000, according to Asia-focused auto advisory Dunne Insights. The cost of the average vehicle exported from China: $18,000.'"
+                        },
+                        {
+                            id: 3,
+                            text: "Which Chinese EV manufacturer surpassed Tesla in sales in 2024?",
+                            options: [
+                                { id: "A", text: "SAIC" },
+                                { id: "B", text: "Geely Group" },
+                                { id: "C", text: "BYD" },
+                                { id: "D", text: "Chery Automobile" }
+                            ],
+                            correctAnswer: "C",
+                            explanation: "The briefing states: 'In 2024, Shenzhen-based EV maker BYD leapfrogged over Elon Musk's Tesla in sales terms.'"
+                        },
+                        {
+                            id: 4,
+                            text: "By what percentage did China's auto exports increase from 2020 to 2024?",
+                            options: [
+                                { id: "A", text: "293%" },
+                                { id: "B", text: "393%" },
+                                { id: "C", text: "493%" },
+                                { id: "D", text: "593%" }
+                            ],
+                            correctAnswer: "C",
+                            explanation: "The briefing says: 'China went from one million auto exports in 2020 to 6.41 million in 2024, a 493% increase.'"
+                        },
+                        {
+                            id: 5,
+                            text: "What was the EU tariff rate imposed on SAIC (state-owned Chinese automaker)?",
+                            options: [
+                                { id: "A", text: "17.0%" },
+                                { id: "B", text: "18.8%" },
+                                { id: "C", text: "20.7%" },
+                                { id: "D", text: "35.3%" }
+                            ],
+                            correctAnswer: "D",
+                            explanation: "The briefing states: 'State-owned SAIC, by sharp contrast, received a 35.3% tariff.'"
+                        },
+                        {
+                            id: 6,
+                            text: "What policy goal might be undermined by reducing Chinese EV imports to Europe?",
+                            options: [
+                                { id: "A", text: "Improving diplomatic relations with China" },
+                                { id: "B", text: "Reducing unemployment in the auto sector" },
+                                { id: "C", text: "Meeting CO2 reduction targets" },
+                                { id: "D", text: "Increasing European market share" }
+                            ],
+                            correctAnswer: "C",
+                            explanation: "The briefing notes: 'One of the knock-on effects from having fewer Chinese EV imports would slow the growth of EVs in the 27-economy market and run counter to the European Commission's tougher carbon dioxide reduction targets.'"
+                        },
+                        {
+                            id: 7,
+                            text: "According to the briefing, what was German auto production (seasonally adjusted annual rate) in March 2025?",
+                            options: [
+                                { id: "A", text: "2.3 million" },
+                                { id: "B", text: "3.2 million" },
+                                { id: "C", text: "4.0 million" },
+                                { id: "D", text: "5.5 million" }
+                            ],
+                            correctAnswer: "B",
+                            explanation: "The briefing states: 'Germany's auto production fell to 3.2 million (saar) during March (Fig. 2).'"
+                        },
+                        {
+                            id: 8,
+                            text: "What strategic plan launched by Xi Jinping in 2015 is mentioned as threatening German industrial interests?",
+                            options: [
+                                { id: "A", text: "Belt and Road Initiative" },
+                                { id: "B", text: "Made in China 2025" },
+                                { id: "C", text: "China Standards 2035" },
+                                { id: "D", text: "China Manufacturing 2025" }
+                            ],
+                            correctAnswer: "B",
+                            explanation: "The briefing mentions: 'Germany continues to learn the hard way that the Made in China 2025 strategic plan that Xi launched in 2015 produced Mainland auto, clean technology, and civil aviation sectors that are upending its industrial interests.'"
+                        }
+                    ]
+                },
+                {
+                    title: "Bank of Japan & Federal Reserve",
+                    questions: [
+                        {
+                            id: 9,
+                            text: "What is described as a common problem for both Jerome Powell (Fed) and Kazuo Ueda (BOJ)?",
+                            options: [
+                                { id: "A", text: "Currency manipulation" },
+                                { id: "B", text: "Trump 2.0" },
+                                { id: "C", text: "Quantitative easing failures" },
+                                { id: "D", text: "Stagflation concerns" }
+                            ],
+                            correctAnswer: "B",
+                            explanation: "The briefing states: 'Powell and Ueda share a common problem: Trump 2.0.'"
+                        },
+                        {
+                            id: 10,
+                            text: "How many jobs did the US add in April 2025 according to the briefing?",
+                            options: [
+                                { id: "A", text: "147,000" },
+                                { id: "B", text: "157,000" },
+                                { id: "C", text: "167,000" },
+                                { id: "D", text: "177,000" }
+                            ],
+                            correctAnswer: "D",
+                            explanation: "The briefing mentions: 'But the justification to do so, the imminent recession argument, is dented by the US's adding an expectations-defying 177,000 jobs in April.'"
+                        },
+                        {
+                            id: 11,
+                            text: "What was the BOJ's benchmark interest rate after its January 2025 hike?",
+                            options: [
+                                { id: "A", text: "0.25%" },
+                                { id: "B", text: "0.5%" },
+                                { id: "C", text: "0.75%" },
+                                { id: "D", text: "1.0%" }
+                            ],
+                            correctAnswer: "B",
+                            explanation: "The briefing states: 'That month, the BOJ hiked its benchmark interest rate to a 17-year high of 0.5%.'"
+                        },
+                        {
+                            id: 12,
+                            text: "By approximately what percentage had the yen risen against the dollar in early 2025?",
+                            options: [
+                                { id: "A", text: "6%" },
+                                { id: "B", text: "9%" },
+                                { id: "C", text: "12%" },
+                                { id: "D", text: "15%" }
+                            ],
+                            correctAnswer: "B",
+                            explanation: "The briefing notes: 'With the yen already up nearly 9% this year, Japan Inc. is bracing for slower economic growth and lower profits.'"
+                        },
+                        {
+                            id: 13,
+                            text: "What is cited as a major factor that helped Japan overcome deflation (rather than BOJ's QE)?",
+                            options: [
+                                { id: "A", text: "Government fiscal stimulus" },
+                                { id: "B", text: "Foreign direct investment" },
+                                { id: "C", text: "Russia's invasion of Ukraine" },
+                                { id: "D", text: "Post-pandemic consumer spending" }
+                            ],
+                            correctAnswer: "C",
+                            explanation: "The briefing explains: 'QE hasn't defeated deflation so much as Vladimir Putin has. In 2022, Japan imported oil and food at elevated prices because of Russia's Ukraine invasion, which boosted commodities prices.'"
+                        },
+                        {
+                            id: 14,
+                            text: "What is Japan's approximate holdings of US Treasury securities?",
+                            options: [
+                                { id: "A", text: "$760 billion" },
+                                { id: "B", text: "$1.13 trillion" },
+                                { id: "C", text: "$1.37 trillion" },
+                                { id: "D", text: "$2.1 trillion" }
+                            ],
+                            correctAnswer: "B",
+                            explanation: "The briefing states: 'There's another wildcard here: Tokyo's status as the largest holder of US Treasury securities, with $1.13 trillion.'"
+                        },
+                        {
+                            id: 15,
+                            text: "What was Japan's consumer price inflation rate in March 2025?",
+                            options: [
+                                { id: "A", text: "2.0%" },
+                                { id: "B", text: "2.8%" },
+                                { id: "C", text: "3.6%" },
+                                { id: "D", text: "4.2%" }
+                            ],
+                            correctAnswer: "C",
+                            explanation: "The briefing notes: 'In March, prices rose at a 3.6% y/y rate.'"
+                        },
+                        {
+                            id: 16,
+                            text: "What historical agreement does Trump's 'Mar-a-Lago Accord' reference?",
+                            options: [
+                                { id: "A", text: "Plaza Accord" },
+                                { id: "B", text: "Bretton Woods Agreement" },
+                                { id: "C", text: "Louvre Accord" },
+                                { id: "D", text: "Tokyo Round" }
+                            ],
+                            correctAnswer: "A",
+                            explanation: "The briefing states: 'And when Trump muses about a Mar-a-Lago Accord, he's riffing on the 1985 Plaza Accord to weaken the dollar versus the yen, forged at a New York hotel he once owned.'"
+                        }
+                    ]
+                },
+                {
+                    title: "Market Indicators & Economic Data",
+                    questions: [
+                        {
+                            id: 17,
+                            text: "What happened to the S&P 500's forward earnings during the May 2 week?",
+                            options: [
+                                { id: "A", text: "Rose 0.2% week-over-week" },
+                                { id: "B", text: "Fell 0.2% week-over-week" },
+                                { id: "C", text: "Rose 0.4% week-over-week" },
+                                { id: "D", text: "Fell 0.4% week-over-week" }
+                            ],
+                            correctAnswer: "A",
+                            explanation: "The briefing states: 'LargeCap's forward earnings rose 0.2% w/w to 0.7% below its record high during the April 4 week.'"
+                        },
+                        {
+                            id: 18,
+                            text: "By how much was the S&P 600 (SmallCap) forward earnings below its record high?",
+                            options: [
+                                { id: "A", text: "0.7%" },
+                                { id: "B", text: "1.5%" },
+                                { id: "C", text: "7.6%" },
+                                { id: "D", text: "13.9%" }
+                            ],
+                            correctAnswer: "D",
+                            explanation: "The briefing notes: 'SmallCap's fell 0.4% w/w to 13.9% below its June 2022 record.'"
+                        },
+                        {
+                            id: 19,
+                            text: "What was the S&P 500 (LargeCap) forward P/E ratio after rising 0.5 points?",
+                            options: [
+                                { id: "A", text: "14.3" },
+                                { id: "B", text: "14.8" },
+                                { id: "C", text: "17.0" },
+                                { id: "D", text: "20.5" }
+                            ],
+                            correctAnswer: "D",
+                            explanation: "The briefing states: 'LargeCap's forward P/E rose 0.5pt w/w to 20.5.'"
+                        },
+                        {
+                            id: 20,
+                            text: "What was the US Non-Manufacturing PMI reading for April 2025?",
+                            options: [
+                                { id: "A", text: "49.0" },
+                                { id: "B", text: "50.2" },
+                                { id: "C", text: "51.6" },
+                                { id: "D", text: "53.7" }
+                            ],
+                            correctAnswer: "C",
+                            explanation: "The briefing notes: 'The ISM NM-PMI climbed to 51.6 in April from March's nine-month low of 50.8—coming in ahead of the consensus estimate of 50.2.'"
+                        }
+                    ]
+                },
+                {
+                    title: "Advanced Topics",
+                    questions: [
+                        {
+                            id: 21,
+                            text: "What investment strategy is described as being at risk due to possible changes in BOJ policy?",
+                            options: [
+                                { id: "A", text: "Dollar cost averaging" },
+                                { id: "B", text: "Yen carry-trade" },
+                                { id: "C", text: "Value investing" },
+                                { id: "D", text: "Technical analysis" }
+                            ],
+                            correctAnswer: "B",
+                            explanation: "The briefing states: 'Then there's the so-called yen carry-trade that's now at risk.'"
+                        },
+                        {
+                            id: 22,
+                            text: "What EU policy is mentioned regarding new car purchases by 2035?",
+                            options: [
+                                { id: "A", text: "50% of all new cars to be EVs" },
+                                { id: "B", text: "75% of all new cars to be EVs" },
+                                { id: "C", text: "90% of all new cars to be EVs" },
+                                { id: "D", text: "100% of all new cars to be EVs" }
+                            ],
+                            correctAnswer: "D",
+                            explanation: "The briefing notes: 'At present, the EU's policy is for 100% of all new cars purchased to be EVs by 2035.'"
+                        },
+                        {
+                            id: 23,
+                            text: "Which executive is quoted as arguing that strict EU regulations disadvantage European automakers against China?",
+                            options: [
+                                { id: "A", text: "Oliver Blume (VW)" },
+                                { id: "B", text: "Ola Källenius (Mercedes-Benz)" },
+                                { id: "C", text: "Michael Dunne (Dunne Insights)" },
+                                { id: "D", text: "Mario Draghi (former Italian PM)" }
+                            ],
+                            correctAnswer: "B",
+                            explanation: "The briefing states: 'Industry executives like Ola Källenius, CEO of Mercedes-Benz, have long argued that strict EU regulations are a big disadvantage that China is exploiting.'"
+                        },
+                        {
+                            id: 24,
+                            text: "What is the expected US Fed Interest Rate Decision mentioned in the calendar section?",
+                            options: [
+                                { id: "A", text: "4.25%" },
+                                { id: "B", text: "4.50%" },
+                                { id: "C", text: "4.75%" },
+                                { id: "D", text: "5.00%" }
+                            ],
+                            correctAnswer: "B",
+                            explanation: "The briefing's calendar section lists: 'Wed: Fed Interest Rate Decision 4.50%'"
+                        },
+                        {
+                            id: 25,
+                            text: "What were the consensus earnings growth rates projected for the S&P 500 in 2024, 2025, and 2026?",
+                            options: [
+                                { id: "A", text: "9.7%, 9.0%, 13.7%" },
+                                { id: "B", text: "0.4%, 6.3%, 16.0%" },
+                                { id: "C", text: "-10.2%, 4.6%, 19.1%" },
+                                { id: "D", text: "4.9%, 7.2%, 15.3%" }
+                            ],
+                            correctAnswer: "A",
+                            explanation: "The briefing states: 'Here are the latest consensus earnings growth rates for 2024, 2025, and 2026: LargeCap (9.7%, 9.0%, 13.7%), MidCap (0.4, 6.3, 16.0), and SmallCap (-10.2, 4.6, 19.1).'"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // Quiz state
+        let userAnswers = {};
+        let showResults = {};
+
+        // Generate quiz HTML
+        function generateQuiz() {
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.innerHTML = '';
+            
+            quizData.sections.forEach(section => {
+                const sectionElement = document.createElement('div');
+                sectionElement.className = 'section';
+                
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.textContent = section.title;
+                sectionElement.appendChild(sectionTitle);
+                
+                section.questions.forEach(question => {
+                    const questionElement = document.createElement('div');
+                    questionElement.className = 'question';
+                    
+                    const questionText = document.createElement('p');
+                    questionText.className = 'question-text';
+                    questionText.textContent = `${question.id}. ${question.text}`;
+                    questionElement.appendChild(questionText);
+                    
+                    const optionsContainer = document.createElement('div');
+                    optionsContainer.className = 'options';
+                    
+                    question.options.forEach(option => {
+                        const optionButton = document.createElement('button');
+                        optionButton.className = 'option';
+                        optionButton.textContent = `${option.id}) ${option.text}`;
+                        
+                        // Add event listener
+                        optionButton.addEventListener('click', function() {
+                            handleOptionClick(question, option, optionsContainer, questionElement);
+                        });
+                        
+                        optionsContainer.appendChild(optionButton);
+                    });
+                    
+                    questionElement.appendChild(optionsContainer);
+                    
+                    // Add feedback area
+                    const feedback = document.createElement('div');
+                    feedback.className = 'feedback';
+                    
+                    const feedbackHeader = document.createElement('p');
+                    feedbackHeader.className = 'feedback-header';
+                    feedback.appendChild(feedbackHeader);
+                    
+                    const feedbackExplanation = document.createElement('p');
+                    feedbackExplanation.textContent = question.explanation;
+                    feedback.appendChild(feedbackExplanation);
+                    
+                    questionElement.appendChild(feedback);
+                    
+                    sectionElement.appendChild(questionElement);
+                });
+                
+                quizContainer.appendChild(sectionElement);
+            });
+        }
+
+        // Handle option click
+        function handleOptionClick(question, selectedOption, optionsContainer, questionElement) {
+            // Store answer
+            userAnswers[question.id] = selectedOption.id;
+            showResults[question.id] = true;
+            
+            // Update options styling
+            const options = optionsContainer.querySelectorAll('.option');
+            options.forEach(optionButton => {
+                // Get option ID from button text
+                const optionId = optionButton.textContent.charAt(0);
+                
+                // Disable all options
+                optionButton.disabled = true;
+                
+                if (optionId === selectedOption.id && optionId === question.correctAnswer) {
+                    // Selected correct answer
+                    optionButton.className = 'option selected-correct';
+                } else if (optionId === selectedOption.id) {
+                    // Selected incorrect answer
+                    optionButton.className = 'option selected-incorrect';
+                } else if (optionId === question.correctAnswer) {
+                    // Correct answer not selected
+                    optionButton.className = 'option correct';
+                }
+            });
+            
+            // Show feedback
+            const feedback = questionElement.querySelector('.feedback');
+            feedback.style.display = 'block';
+            
+            const feedbackHeader = feedback.querySelector('.feedback-header');
+            if (selectedOption.id === question.correctAnswer) {
+                feedbackHeader.textContent = '✓ Correct!';
+                feedbackHeader.className = 'feedback-header feedback-correct';
+            } else {
+                feedbackHeader.textContent = `✗ Incorrect. The correct answer is ${question.correctAnswer}.`;
+                feedbackHeader.className = 'feedback-header feedback-incorrect';
+            }
+        }
+
+        // Calculate and display score
+        function calculateScore() {
+            let correctCount = 0;
+            let totalQuestions = 0;
+            
+            quizData.sections.forEach(section => {
+                section.questions.forEach(question => {
+                    totalQuestions++;
+                    if (userAnswers[question.id] === question.correctAnswer) {
+                        correctCount++;
+                    }
+                });
+            });
+            
+            const percentage = Math.round((correctCount / totalQuestions) * 100);
+            document.getElementById('score-display').textContent = `Your Score: ${correctCount} / ${totalQuestions} (${percentage}%)`;
+        }
+
+        // Reset quiz
+        function resetQuiz() {
+            // Reset state
+            userAnswers = {};
+            showResults = {};
+            
+            // Regenerate quiz
+            generateQuiz();
+            
+            // Clear score
+            document.getElementById('score-display').textContent = '';
+        }
+
+        // Initialize quiz
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQuiz();
+            
+            // Set up event listeners for buttons
+            document.getElementById('reset-button').addEventListener('click', resetQuiz);
+            document.getElementById('score-button').addEventListener('click', calculateScore);
+        });
+    </script>
+</body>
+</html>
