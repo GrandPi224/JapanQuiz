@@ -3,77 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Productivity & Costs – May 2025 Quiz</title>
+  <title>Productivity Quiz – May 2025</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      background: #f5f7fa;
       padding: 2rem;
-    }
-    .quiz-container {
-      max-width: 800px;
+      max-width: 900px;
       margin: auto;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h1 {
+    header {
+      background-color: #1e40af;
+      color: white;
       text-align: center;
+      padding: 20px;
+      border-radius: 8px;
       margin-bottom: 2rem;
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      color: #1e40af;
     }
     .question {
-      margin-bottom: 2rem;
+      margin-top: 1.5rem;
+      font-weight: bold;
     }
-    .question h3 {
-      margin-bottom: 0.5rem;
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
     }
-    .options button {
-      display: block;
-      width: 100%;
-      padding: 0.75rem;
-      margin: 0.25rem 0;
-      border: 1px solid #ccc;
-      background-color: #eee;
-      cursor: pointer;
-      text-align: left;
+    button {
+      padding: 12px;
       border-radius: 5px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background: #f0f0f0;
+      transition: 0.2s ease;
     }
-    .options button.correct {
-      background-color: #c8e6c9;
-      border-color: #2e7d32;
-    }
-    .options button.wrong {
-      background-color: #ffcdd2;
-      border-color: #c62828;
+    button:hover {
+      background-color: #e0e7ff;
     }
   </style>
 </head>
 <body>
-  <div class="quiz-container">
-    <h1>May 2025 U.S. Productivity Quiz</h1>
+  <header>
+    <h1>Productivity Quiz – May 2025</h1>
+    <p>Test your knowledge of U.S. productivity, costs, and labor metrics from the latest BLS report.</p>
+  </header>
 
-    <!-- [Insert the 10 questions and answers here — already created above] -->
+  <div class="section">
+    <h2>Nonfarm Business</h2>
+    <div class="question">1. What happened to nonfarm labor productivity in Q1 2025?</div>
+    <div class="answers">
+      <button>A) Increased 0.3%</button>
+      <button>B) Decreased 0.8%</button>
+      <button>C) Stayed flat</button>
+      <button>D) Increased 1.4%</button>
+    </div>
 
+    <div class="question">2. What caused the 5.7% increase in unit labor costs in Q1?</div>
+    <div class="answers">
+      <button>A) Decline in hours worked</button>
+      <button>B) Compensation ↑ & productivity ↓</button>
+      <button>C) Wage freeze</button>
+      <button>D) New taxes on businesses</button>
+    </div>
+
+    <div class="question">3. Real hourly compensation over the last 4 quarters was:</div>
+    <div class="answers">
+      <button>A) Up 1.4%</button>
+      <button>B) Down 1.0%</button>
+      <button>C) Flat</button>
+      <button>D) Up 2.0%</button>
+    </div>
   </div>
 
-  <script>
-    document.querySelectorAll(".options button").forEach(button => {
-      button.addEventListener("click", () => {
-        const parent = button.closest(".options");
-        const buttons = parent.querySelectorAll("button");
-        const correct = parent.querySelector(".correct");
+  <div class="section">
+    <h2>Manufacturing</h2>
+    <div class="question">4. Q1 2025 manufacturing productivity rose by:</div>
+    <div class="answers">
+      <button>A) 2.2%</button>
+      <button>B) 4.0%</button>
+      <button>C) 4.5%</button>
+      <button>D) 6.1%</button>
+    </div>
 
-        buttons.forEach(b => {
-          b.disabled = true;
-          if (b === correct) {
-            b.classList.add("correct");
-          } else if (b === button) {
-            b.classList.add("wrong");
-          }
-        });
-      });
-    });
-  </script>
+    <div class="question">5. Durable goods manufacturing productivity rose:</div>
+    <div class="answers">
+      <button>A) 2.3%</button>
+      <button>B) 4.8%</button>
+      <button>C) 7.1%</button>
+      <button>D) 5.5%</button>
+    </div>
+
+    <div class="question">6. Unit labor costs in manufacturing rose how much?</div>
+    <div class="answers">
+      <button>A) 2.4%</button>
+      <button>B) 1.6%</button>
+      <button>C) 3.8%</button>
+      <button>D) 0.7%</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Trends & Formulas</h2>
+    <div class="question">7. From Q1 2024 to Q1 2025, nonfarm labor productivity rose:</div>
+    <div class="answers">
+      <button>A) 0.6%</button>
+      <button>B) 0.9%</button>
+      <button>C) 1.4%</button>
+      <button>D) 2.1%</button>
+    </div>
+
+    <div class="question">8. Current business cycle (2019–2025) productivity growth is:</div>
+    <div class="answers">
+      <button>A) 1.5%</button>
+      <button>B) 1.8%</button>
+      <button>C) 2.1%</button>
+      <button>D) 0.5%</button>
+    </div>
+
+    <div class="question">9. What’s the formula for unit labor costs?</div>
+    <div class="answers">
+      <button>A) Output ÷ Hours Worked</button>
+      <button>B) Wages × Productivity</button>
+      <button>C) Hourly Compensation ÷ Labor Productivity</button>
+      <button>D) Labor Hours × Price Deflator</button>
+    </div>
+
+    <div class="question">10. Real hourly compensation in manufacturing rose by:</div>
+    <div class="answers">
+      <button>A) 0.0%</button>
+      <button>B) 2.4%</button>
+      <button>C) -0.5%</button>
+      <button>D) 1.6%</button>
+    </div>
+  </div>
+
 </body>
 </html>
