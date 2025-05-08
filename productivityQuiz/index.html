@@ -51,6 +51,10 @@
     button:hover {
       background-color: #e0e7ff;
     }
+    button.active {
+      outline: 2px solid #000;
+      background-color: #e0e7ff;
+    }
   </style>
 </head>
 <body>
@@ -61,6 +65,7 @@
 
   <div class="section">
     <h2>Nonfarm Business</h2>
+
     <div class="question">1. What happened to nonfarm labor productivity in Q1 2025?</div>
     <div class="answers">
       <button>A) Increased 0.3%</button>
@@ -88,6 +93,7 @@
 
   <div class="section">
     <h2>Manufacturing</h2>
+
     <div class="question">4. Q1 2025 manufacturing productivity rose by:</div>
     <div class="answers">
       <button>A) 2.2%</button>
@@ -115,6 +121,7 @@
 
   <div class="section">
     <h2>Trends & Formulas</h2>
+
     <div class="question">7. From Q1 2024 to Q1 2025, nonfarm labor productivity rose:</div>
     <div class="answers">
       <button>A) 0.6%</button>
@@ -148,5 +155,17 @@
     </div>
   </div>
 
+  <script>
+    document.querySelectorAll('.answers').forEach(group => {
+      group.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', () => {
+          group.querySelectorAll('button').forEach(btn => {
+            btn.classList.remove('active');
+          });
+          button.classList.add('active');
+        });
+      });
+    });
+  </script>
 </body>
 </html>
